@@ -1,0 +1,75 @@
+# -------------------------------
+# Python + Machine Learning Service
+# -------------------------------
+
+# Byte-compiled / optimized files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment files
+.env
+.env.local
+.env.example
+*.env
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+pythonenv/
+pip-wheel-metadata/
+
+# Package build outputs
+build/
+dist/
+*.egg-info/
+
+# Logs
+*.log
+logs/
+*.out
+*.err
+
+# Jupyter & notebooks (if used)
+*.ipynb_checkpoints
+*.ipynb
+
+# Datasets & cache
+data/
+datasets/
+.cache/
+*.csv
+*.zip
+*.tar
+*.gz
+
+# Trained models
+model.pkl
+*.pkl
+*.joblib
+*.h5
+*.pt
+
+# KaggleHub cache
+~/.cache/kagglehub/
+kagglehub/
+.kaggle/
+
+# OS / IDE files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Temporary & misc
+*.tmp
+*.bak
+*.swp
+*.orig
+*.rej
+
+# -------------------------------
+# End of ml-service/.gitignore
+# -------------------------------

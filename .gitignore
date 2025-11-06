@@ -1,0 +1,19 @@
+# Root .gitignore
+
+# Ignore Node modules in backend & frontend
+backend/node_modules/
+frontend/node_modules/
+
+# Ignore ML artifacts
+ml-service/__pycache__/
+ml-service/model.pkl
+ml-service/data/
+ml-service/datasets/
+ml-service/.cache/
+
+# Ignore environment files everywhere
+**/.env
+**/.env.local
+
+# Ignore logs
+**/*.log

@@ -1,0 +1,71 @@
+# ---------------------------
+# Node.js + Express Backend
+# ---------------------------
+
+# Node modules
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# Build output
+dist/
+build/
+coverage/
+.tmp/
+.cache/
+
+# Logs
+logs/
+*.log
+debug.log
+error.log
+
+# OS / IDE files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# Test and temporary files
+*.pid
+*.seed
+*.pid.lock
+*.tgz
+*.bak
+*.tmp
+*.orig
+*.rej
+
+# Optional npm cache directory
+.npm/
+
+# Optional eslint cache
+.eslintcache
+
+# Optional nodemon restart marker
+nodemon.json
+
+# Ignore uploaded data or datasets
+/uploads/
+*.csv
+*.pkl
+
+# Ignore generated model files
+ml-model/
+model.pkl
+
+# Ignore environment example backup
+.env.example.bak
+
+# ---------------------------
+# End of .gitignore
+# ---------------------------
