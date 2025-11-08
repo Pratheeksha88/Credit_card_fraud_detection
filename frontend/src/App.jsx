@@ -1,16 +1,32 @@
-import React from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Login from './pages/Login'
-import Register from './pages/Register'
-import Dashboard from './pages/Dashboard'
-import ProtectedRoute from './components/ProtectedRoute'
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Dashboard from "./pages/Dashboard";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Overview from "./pages/Overview"; // ✅ only once
 
 export default function App() {
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-slate-900 text-white">
-      <h1 className="text-4xl font-bold text-teal-400">Tailwind Works 🎉</h1>
-      <p className="mt-3 text-gray-400">Your frontend is now live!</p>
-    </div>
-  )
+    <BrowserRouter>
+      <Routes>
+        {/* Landing / Overview page */}
+        <Route path="/" element={<Overview />} />
+
+        {/* Auth routes */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+
+        {/* Protected dashboard route */}
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </BrowserRouter>
+  );
 }
-// 
