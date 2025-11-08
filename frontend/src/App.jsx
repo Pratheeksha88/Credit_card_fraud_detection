@@ -4,20 +4,24 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
-import Overview from "./pages/Overview"; // ✅ only once
+import Overview from "./pages/Overview";
+import ResearchOverview from "./pages/ResearchOverview";
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Landing / Overview page */}
+        {/* 🏠 Home = Overview */}
         <Route path="/" element={<Overview />} />
+
+        {/* Research page */}
+        <Route path="/research" element={<ResearchOverview />} />
 
         {/* Auth routes */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        {/* Protected dashboard route */}
+        {/* Protected dashboard */}
         <Route
           path="/dashboard"
           element={

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Navbar from "../components/Navbar";
 import axios from "axios";
 
 export default function Login() {   // 👈 ensure "export default" is here
@@ -22,6 +23,7 @@ export default function Login() {   // 👈 ensure "export default" is here
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-slate-900 text-white">
+      <Navbar />
       <h1 className="text-3xl font-bold mb-6 text-teal-400">Login</h1>
       <form
         onSubmit={handleSubmit}

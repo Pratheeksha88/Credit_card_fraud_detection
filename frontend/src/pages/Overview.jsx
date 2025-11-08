@@ -1,4 +1,5 @@
 import React from "react";
+import Navbar from "../components/Navbar";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 export default function Overview() {
@@ -10,6 +11,7 @@ export default function Overview() {
 
   return (
     <div className="bg-slate-950 text-white overflow-x-hidden">
+    <Navbar />
       {/* Hero Section */}
       <section className="relative h-screen flex flex-col justify-center items-center text-center px-6">
         <motion.h1
