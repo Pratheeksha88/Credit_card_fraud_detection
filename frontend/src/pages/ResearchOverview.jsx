@@ -19,7 +19,7 @@ export default function ResearchOverview() {
             Using State-of-the-Art Machine Learning & Deep Learning Algorithms
           </h2>
           <a
-            href="/overview"
+            href="/"
             className="bg-teal-500 hover:bg-teal-600 text-white px-6 py-3 rounded-lg text-lg transition-all duration-300"
           >
             View System Overview →
@@ -126,7 +126,7 @@ export default function ResearchOverview() {
           Ready to Explore the Model?
         </h2>
         <a
-          href="/overview"
+          href="/login"
           className="bg-teal-500 hover:bg-teal-600 text-white px-8 py-4 rounded-lg text-xl transition-all duration-300"
         >
           View Live System →
