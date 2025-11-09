@@ -1,47 +1,57 @@
 import React, { useState } from "react";
-import Navbar from "../components/Navbar";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-export default function Login() {   // 👈 ensure "export default" is here
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+export default function Login() {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({ email: "", password: "" });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
-      const res = await axios.post("http://localhost:4000/api/auth/login", {
-        email,
-        password,
-      });
-      alert("Login successful!");
-      console.log(res.data);
+      const res = await axios.post("http://localhost:4000/api/auth/login", formData);
+
+      // ✅ Save JWT token
+      localStorage.setItem("token", res.data.token);
+
+      // ✅ Redirect to dashboard
+      navigate("/dashboard");
     } catch (err) {
       console.error(err);
-      alert("Invalid credentials!");
+      alert("Invalid email or password. Please try again.");
     }
   };
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-slate-900 text-white">
-      <Navbar />
       <h1 className="text-3xl font-bold mb-6 text-teal-400">Login</h1>
+
       <form
         onSubmit={handleSubmit}
         className="bg-slate-800 p-6 rounded-xl shadow-lg w-80"
       >
         <input
           type="email"
+          name="email"
           placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={formData.email}
+          onChange={handleChange}
           className="w-full p-2 mb-4 rounded bg-slate-700 text-white focus:outline-none"
+          required
         />
         <input
           type="password"
+          name="password"
           placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={formData.password}
+          onChange={handleChange}
           className="w-full p-2 mb-4 rounded bg-slate-700 text-white focus:outline-none"
+          required
         />
         <button
           type="submit"
@@ -50,6 +60,13 @@ export default function Login() {   // 👈 ensure "export default" is here
           Login
         </button>
       </form>
+
+      <p className="mt-4 text-gray-400">
+        Don’t have an account?{" "}
+        <a href="/register" className="text-teal-400 hover:underline">
+          Register
+        </a>
+      </p>
     </div>
   );
 }
