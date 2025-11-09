@@ -1,59 +1,111 @@
+import joblib
+import json
+import pandas as pd
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import joblib
-import pandas as pd
-import traceback
 
 app = Flask(__name__)
 CORS(app)
 
-# Load the trained model
+# --- Load model and features ---
 try:
-    model = joblib.load('model.pkl')
-    print("✅ Model loaded successfully!")
-except Exception as e:
-    print("❌ Error loading model:", e)
+    wrapped = joblib.load("model.pkl")
 
-@app.route('/predict', methods=['POST'])
+    # Handle both wrapped and plain models
+    if isinstance(wrapped, dict):
+        model = wrapped.get("model", None)
+        scaler = wrapped.get("scaler", None)
+        feature_names = wrapped.get("feature_names", None)
+        print("✅ Wrapped model loaded successfully!")
+    else:
+        model = wrapped
+        scaler = None
+        feature_names = None
+        print("✅ Plain model loaded successfully!")
+
+    # Try loading feature names from JSON (if exists)
+    if feature_names is None:
+        try:
+            with open("feature_names.json", "r") as f:
+                feature_names = json.load(f)
+                print("✅ Loaded feature_names.json")
+        except FileNotFoundError:
+            print("⚠️ feature_names.json not found — will infer from CSV")
+
+except Exception as e:
+    print("❌ Could not load model:", e)
+    model = None
+    feature_names = None
+
+
+# --- Prediction Route ---
+@app.route("/predict", methods=["POST"])
 def predict():
     try:
-        if 'file' not in request.files:
-            return jsonify({"error": "No file uploaded"}), 400
+        if model is None:
+            return jsonify({"error": "Model not loaded"}), 500
 
-        file = request.files['file']
+        if "file" not in request.files:
+            return jsonify({"error": "No file provided"}), 400
+
+        file = request.files["file"]
         df = pd.read_csv(file)
 
         if df.empty:
             return jsonify({"error": "Uploaded CSV is empty"}), 400
 
-        # --- FIX STARTS HERE ---
-        # Get model's trained feature names
-        trained_features = None
-        if hasattr(model, "feature_names_in_"):
-            trained_features = model.feature_names_in_.tolist()
-
-        # Select only the columns the model expects
-        if trained_features:
-            X = df[[col for col in trained_features if col in df.columns]]
+        # --- Align columns to model's training features ---
+        # Prefer wrapped feature list, or infer from model
+        expected = []
+        if feature_names:
+            expected = [c.strip() for c in feature_names]
+        elif hasattr(model, "feature_names_in_"):
+            expected = list(model.feature_names_in_)
         else:
-            X = df.select_dtypes(include=['float64', 'int64'])
-        # --- FIX ENDS HERE ---
+            expected = list(df.columns)
 
-        # Make predictions
-        preds = model.predict(X).tolist()
+        # Keep only expected columns (drop extras)
+        available = [c for c in expected if c in df.columns]
+        df = df[available]
+
+        # Add any missing columns with zeros
+        missing = [c for c in expected if c not in df.columns]
+        for c in missing:
+            df[c] = 0
+
+        # Ensure order matches training
+        df = df[expected]
+
+        print(f"✅ Final aligned features: {len(expected)} columns")
+        if missing:
+            print("⚠️ Missing columns filled with 0:", missing)
+
+        # --- Optional scaling ---
+        if "scaler" in locals() and scaler is not None:
+            df = pd.DataFrame(scaler.transform(df), columns=df.columns)
+
+        # --- Prediction ---
+        preds = model.predict(df)
         probs = (
-            model.predict_proba(X)[:, 1].tolist()
+            model.predict_proba(df)[:, 1].tolist()
             if hasattr(model, "predict_proba")
-            else [0] * len(preds)
+            else []
         )
 
-        print("✅ Predictions successful!")
-        return jsonify({"predictions": preds, "probabilities": probs})
+        return jsonify({
+            "predictions": preds.tolist(),
+            "probabilities": probs
+        })
 
     except Exception as e:
-        print("❌ Error during prediction:", e)
+        import traceback
+        print("🔥 Prediction error:", e)
         traceback.print_exc()
         return jsonify({"error": str(e)}), 500
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+
+
+# --- Run Server ---
+if __name__ == "__main__":
+    print("🚀 Flask ML API running on http://127.0.0.1:5000")
+    app.run(host="0.0.0.0", port=5000)
