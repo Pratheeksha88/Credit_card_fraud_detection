@@ -5,35 +5,35 @@ from sklearn.ensemble import RandomForestClassifier
 from imblearn.over_sampling import SMOTE
 import joblib
 
-# Load dataset
-print("Loading data...")
-df = pd.read_csv("creditcard.csv")  # make sure this path is correct
+print("📥 Loading dataset...")
+df = pd.read_csv("data/creditcard.csv")
 
 X = df.drop(columns=["Class"])
 y = df["Class"]
 
-# Balance the dataset using SMOTE
-print("Applying SMOTE...")
+print(f"Original shape: {X.shape}, Fraud cases: {y.sum()}")
+
+# Balance data with SMOTE
 smote = SMOTE(random_state=42)
 X_res, y_res = smote.fit_resample(X, y)
 
-# Scale the features
+# Scale numeric data
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X_res)
 
 # Train model
-print("Training RandomForest...")
+print("🎯 Training model...")
 model = RandomForestClassifier(
-    n_estimators=200, max_depth=10, random_state=42, n_jobs=-1
+    n_estimators=100, max_depth=12, random_state=42, n_jobs=-1
 )
 model.fit(X_scaled, y_res)
 
-# Save wrapped model safely
-wrapped_model = {
+# Save all objects together
+wrapped = {
     "model": model,
     "scaler": scaler,
     "feature_names": list(X.columns)
 }
+joblib.dump(wrapped, "model.pkl")
 
-joblib.dump(wrapped_model, "model.pkl")
-print("✅ Model trained and saved as model.pkl")
+print("✅ Model trained and saved successfully with scaler + features!")
