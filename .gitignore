@@ -1,19 +1,128 @@
-# Root .gitignore
+# =========================================================
+# 🌍 Root-level Git Ignore for Credit Card Fraud Detection
+# =========================================================
 
-# Ignore Node modules in backend & frontend
-backend/node_modules/
-frontend/node_modules/
+# ------------------------
+# Node.js / React (frontend & backend)
+# ------------------------
+**/node_modules/
+**/package-lock.json
+**/yarn.lock
+**/dist/
+**/build/
+**/.vite/
+**/.cache/
+**/.parcel-cache/
 
-# Ignore ML artifacts
-ml-service/__pycache__/
-ml-service/model.pkl
-ml-service/data/
-ml-service/datasets/
-ml-service/.cache/
-
-# Ignore environment files everywhere
+# ------------------------
+# Environment / Secrets
+# ------------------------
 **/.env
 **/.env.local
+**/.env.development
+**/.env.production
 
-# Ignore logs
+# ------------------------
+# Python / ML Service
+# ------------------------
+ml-service/__pycache__/
+ml-service/*.pyc
+ml-service/.pytest_cache/
+ml-service/.ipynb_checkpoints/
+ml-service/.DS_Store
+ml-service/.vscode/
+ml-service/data/
+ml-service/datasets/
+ml-service/model.pkl
+ml-service/temp/
+ml-service/venv/
+ml-service/.venv/
+ml-service/env/
+ml-service/.env/
+
+# ------------------------
+# Virtual Environments
+# ------------------------
+.venv/
+venv/
+env/
+ENV/
+pythonenv/
+pip-wheel-metadata/
+
+# ------------------------
+# Logs / Reports
+# ------------------------
 **/*.log
+**/npm-debug.log*
+**/yarn-debug.log*
+**/yarn-error.log*
+**/pnpm-debug.log*
+logs/
+debug.log
+
+# ------------------------
+# IDE / Editor files
+# ------------------------
+.vscode/
+.idea/
+*.code-workspace
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.orig
+.DS_Store
+Thumbs.db
+
+# ------------------------
+# OS / Miscellaneous
+# ------------------------
+*.bak
+*.tmp
+*.temp
+*.old
+*.lock
+*.zip
+*.tar.gz
+*.rar
+
+# ------------------------
+# Test / Coverage Outputs
+# ------------------------
+coverage/
+.nyc_output/
+jest/
+cypress/screenshots/
+cypress/videos/
+
+# ------------------------
+# Deployment / Build Artifacts
+# ------------------------
+frontend/.next/
+frontend/out/
+frontend/public/build/
+frontend/build/
+backend/build/
+backend/dist/
+uploads/
+staticfiles/
+
+# ------------------------
+# Cache / Package Managers
+# ------------------------
+.pnpm-store/
+.eslintcache
+.stylelintcache
+.cache-loader/
+.babel-cache/
+.next/
+.husky/_/
+.prettier-cache/
+
+# ------------------------
+# Temporary Files
+# ------------------------
+tmp/
+temp/

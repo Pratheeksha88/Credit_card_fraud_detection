@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import Papa from "papaparse";
 import Navbar from "../components/Navbar";
+import Swal from "sweetalert2";
 import {
   PieChart,
   Pie,
@@ -25,7 +26,7 @@ export default function Dashboard() {
     setLoading(true);
 
     try {
-      // Parse CSV (optional preview)
+      // Parse CSV file (for preview)
       Papa.parse(file, {
         header: true,
         complete: async function (results) {
@@ -42,16 +43,28 @@ export default function Dashboard() {
           const preds = res.data.predictions || [];
           setPredictions(preds);
 
-          // Calculate stats
+          // Calculate fraud vs legitimate stats
           const fraud = preds.filter((p) => p === 1).length;
           const legit = preds.filter((p) => p === 0).length;
           setStats({ fraud, legit });
           setLoading(false);
+
+          // ✅ SweetAlert Popup Notification
+          Swal.fire({
+            icon: fraud > 0 ? "warning" : "success",
+            title: fraud > 0 ? "⚠️ Potential Fraud Detected!" : "✅ Analysis Complete!",
+            text: `Detected ${fraud} fraudulent and ${legit} legitimate transactions.`,
+            confirmButtonColor: "#14b8a6",
+          });
         },
       });
     } catch (err) {
       console.error(err);
-      alert("Prediction failed. Try again.");
+      Swal.fire({
+        icon: "error",
+        title: "Prediction Failed",
+        text: "Something went wrong. Please try again.",
+      });
       setLoading(false);
     }
   };
@@ -79,13 +92,26 @@ export default function Dashboard() {
             type="file"
             accept=".csv"
             onChange={handleFileUpload}
-            className="block mx-auto mb-6 text-gray-400 border border-gray-600 rounded-lg cursor-pointer bg-slate-700 focus:outline-none p-2"
+            className="block mx-auto mb-4 text-gray-400 border border-gray-600 rounded-lg cursor-pointer bg-slate-700 focus:outline-none p-2"
           />
 
-          {loading && <p className="text-gray-400">Analyzing... Please wait.</p>}
+          {/* Download Sample CSV */}
+          <a
+            href="/sample.csv"
+            download
+            className="inline-block px-4 py-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition"
+          >
+            ⬇️ Download Sample CSV
+          </a>
+
+          {loading && (
+            <p className="mt-4 text-gray-400 animate-pulse">
+              🔍 Analyzing... Please wait.
+            </p>
+          )}
         </div>
 
-        {/* Display Predictions */}
+        {/* Prediction Results */}
         {predictions.length > 0 && (
           <div className="mt-10">
             <h2 className="text-2xl font-semibold text-teal-400 mb-4">
