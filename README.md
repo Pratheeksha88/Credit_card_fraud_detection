@@ -31,27 +31,72 @@ Built with **React (frontend)**, **Node.js + Express (backend)**, **MongoDB (dat
 ## 🗂️ Project Structure
 
 ```
-
-fraud-detect-app/
+credit-card-fraud-detection/
 ├── backend/                # Express + MongoDB API
 │   ├── server.js
-│   ├── routes/
 │   ├── controllers/
+│   │   ├── authController.js
+│   │   └── predictController.js
 │   ├── models/
-│   └── .env
+│   │   ├── Prediction.js
+│   │   └── User.js
+│   ├── routes/
+│   │   ├── auth.js
+│   │   └── predict.js
+│   ├── package.json
+│   ├── .gitignore
+│   └── .env (not included)
 ├── frontend/               # React + Tailwind Dashboard
 │   ├── src/
+│   │   ├── components/
+│   │   │   ├── ChartCard.jsx
+│   │   │   ├── DashboardNavbar.jsx
+│   │   │   ├── Navbar.jsx
+│   │   │   └── ProtectedRoute.jsx
+│   │   ├── pages/
+│   │   │   ├── Dashboard.jsx
+│   │   │   ├── Login.jsx
+│   │   │   ├── Overview.jsx
+│   │   │   ├── Register.jsx
+│   │   │   └── ResearchOverview.jsx
+│   │   ├── App.jsx
+│   │   ├── index.css
+│   │   └── main.jsx
 │   ├── public/
+│   │   ├── assets/
+│   │   │   └── ai-analysis.jpg
+│   │   ├── fraud_demo.csv
+│   │   ├── fraud_sample.csv
+│   │   ├── fraud_test_done.csv
+│   │   ├── fraud_test_final.csv
+│   │   ├── fraud_test_mixed.csv
+│   │   ├── fraud_test.csv
+│   │   ├── fraud_test1.csv
+│   │   ├── fraud_test2.csv
+│   │   ├── frauddetect.png
+│   │   └── sample.csv
 │   ├── package.json
-│   └── tailwind.config.js
+│   ├── postcss.config.js
+│   ├── tailwind.config.js
+│   └── .gitignore
 ├── ml-service/             # Flask ML microservice
 │   ├── app.py
+│   ├── download_dataset.py
+│   ├── feature_names.json
+│   ├── requirements.txt
+│   ├── test_api.py
+│   ├── train_balanced_model.py
+│   ├── train_final_model.py
+│   ├── train_model.py
+│   ├── train_real_model.py
+│   ├── train_sensitive_model.py
 │   ├── train.py
-│   ├── model.pkl
-│   └── requirements.txt
+│   ├── .gitignore
+│   └── model.pkl (generated)
+├── .gitignore
+├── package.json
 └── README.md
-
-````
+```
 
 ---
 
@@ -106,7 +151,7 @@ npm run dev
 ```bash
 cd ml-service
 pip install -r requirements.txt
-python train.py   # trains model and generates model.pkl
+python train_sensitive_model.py   # trains model and generates model.pkl
 python app.py     # starts Flask server
 ```
 
