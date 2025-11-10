@@ -28,8 +28,9 @@ def predict():
 
         print(f"📥 Uploaded shape: {df.shape}")
         print("🔍 Raw columns:", list(df.columns))
+        print("🧩 Model expects:", feature_names)
 
-        # Align columns — ensure all features exist
+        # Ensure all features exist
         for col in feature_names:
             if col not in df.columns:
                 df[col] = 0.0
@@ -39,17 +40,18 @@ def predict():
         # Scale data
         X_scaled = scaler.transform(df)
 
-        # Get probabilities
+        # Get fraud probabilities
         probs = model.predict_proba(X_scaled)[:, 1]
 
-        # Custom fraud threshold — detect more cases
-        preds = (probs >= 0.3).astype(int)
+        # Try lower threshold
+        threshold = 0.01
+        preds = (probs >= threshold).astype(int)
 
         fraud_count = int((preds == 1).sum())
         legit_count = int((preds == 0).sum())
 
         print(f"✅ Predictions done! Fraud: {fraud_count}, Legitimate: {legit_count}")
-        print("📊 Probabilities:", probs.tolist())
+        print(f"📊 Mean fraud probability: {probs.mean():.5f}, Threshold: {threshold}")
 
         return jsonify({
             "predictions": preds.tolist(),

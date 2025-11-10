@@ -13,33 +13,43 @@ df = pd.read_csv("creditcard.csv")
 X = df.drop(columns=["Class"])
 y = df["Class"]
 
-# Scale features
-scaler = StandardScaler()
-X_scaled = scaler.fit_transform(X)
+# --- Split before SMOTE ---
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42, stratify=y
+)
 
-# Apply SMOTE balancing
+# --- Apply SMOTE balancing on training set ---
 print("⚖️ Applying SMOTE balancing...")
 sm = SMOTE(random_state=42)
-X_res, y_res = sm.fit_resample(X_scaled, y)
+X_res, y_res = sm.fit_resample(X_train, y_train)
 
-# ⚡ Train a more sensitive RandomForest
-# - class_weight makes frauds more important
-# - higher max_depth and more estimators help pick up rare patterns
+# --- Scale AFTER SMOTE ---
+scaler = StandardScaler()
+X_res_scaled = scaler.fit_transform(X_res)
+X_test_scaled = scaler.transform(X_test)
+
+# --- Train a fraud-sensitive RandomForest ---
 print("🌲 Training fraud-sensitive RandomForest...")
 model = RandomForestClassifier(
     n_estimators=300,
     max_depth=20,
     random_state=42,
-    class_weight={0: 1, 1: 4},  # Fraud gets 4x more importance
+    class_weight={0: 1, 1: 4},  # Fraud 4x more important
     min_samples_leaf=2,
     n_jobs=-1
 )
-model.fit(X_res, y_res)
+model.fit(X_res_scaled, y_res)
 
 print("✅ Training done!")
 print("Fraud ratio after SMOTE:", dict(pd.Series(y_res).value_counts()))
 
-# Save model and metadata
+# --- Evaluate quick test ---
+from sklearn.metrics import classification_report
+y_pred = model.predict(X_test_scaled)
+print("\n📊 Model performance on real test data:")
+print(classification_report(y_test, y_pred, digits=4))
+
+# --- Save model and metadata ---
 joblib.dump({
     "model": model,
     "scaler": scaler,
@@ -48,7 +58,8 @@ joblib.dump({
 
 print("💾 Saved new sensitive model as model.pkl")
 
-# Quick test
+# --- Quick sanity check ---
 test_fraud = X_res[y_res == 1][:10]
-preds = model.predict(test_fraud)
-print("🧠 Test fraud predictions:", preds)
+test_scaled = scaler.transform(test_fraud)
+preds = model.predict_proba(test_scaled)[:, 1]
+print("🧠 Example fraud probabilities:", preds)
