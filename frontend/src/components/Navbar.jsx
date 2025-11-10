@@ -13,8 +13,8 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 px-8 py-4 flex justify-between items-center text-white">
-      {/* Brand / Logo */}
+    <nav className="fixed top-0 w-full z-50 px-8 py-4 flex justify-between items-center text-white bg-transparent">
+      {/* Logo */}
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -41,16 +41,12 @@ export default function Navbar() {
             >
               <Link
                 to={item.path}
-                className={`relative inline-block transition-all duration-300 ${
-                  isActive
-                    ? "text-teal-400"
-                    : "text-gray-300 hover:text-white"
+                className={`relative transition-all duration-300 ${
+                  isActive ? "text-teal-400" : "text-gray-300 hover:text-white"
                 }`}
               >
-                {/* Text */}
-                <span>{item.name}</span>
-
-                {/* Animated underline glow */}
+                {item.name}
+                {/* Animated underline */}
                 <motion.span
                   className="absolute left-0 bottom-[-4px] w-0 h-[2px] bg-gradient-to-r from-teal-400 to-cyan-400 rounded-full"
                   initial={{ width: 0 }}
