@@ -19,41 +19,23 @@ export default function Login() {
   const togglePassword = () => setShowPassword(!showPassword);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      const res = await axios.post("http://localhost:4000/api/auth/login", formData);
-      localStorage.setItem("token", res.data.token);
+  e.preventDefault();
 
-      // ✅ SweetAlert2 success modal
-      Swal.fire({
-        title: "Login Successful 🎉",
-        text: "Redirecting you to the dashboard...",
-        icon: "success",
-        confirmButtonColor: "#14b8a6",
-        background: "#0A1A2F",
-        color: "#fff",
-        timer: 2000,
-        showConfirmButton: false,
-      });
+  try {
+    const res = await axios.post("http://localhost:4000/api/auth/login", formData);
 
-      setTimeout(() => navigate("/dashboard"), 2000);
-    } catch (err) {
-      console.error(err);
+    // ✅ Save token and user details in localStorage
+    localStorage.setItem("token", res.data.token);
+    localStorage.setItem("user", JSON.stringify(res.data.user));
 
-      // ❌ SweetAlert2 error modal
-      Swal.fire({
-        title: "Login Failed!",
-        text: "Invalid email or password. Please try again.",
-        icon: "error",
-        confirmButtonColor: "#14b8a6",
-        background: "#0A1A2F",
-        color: "#fff",
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
+    // ✅ Redirect to dashboard
+    navigate("/dashboard");
+  } catch (err) {
+    console.error(err);
+    alert("Invalid email or password. Please try again.");
+  }
+};
+
 
   return (
     <div className="relative flex items-center justify-center min-h-screen overflow-hidden bg-gradient-to-br from-[#030711] via-[#0A1A2F] to-[#04131C] text-white">

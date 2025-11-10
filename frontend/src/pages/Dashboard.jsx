@@ -145,7 +145,7 @@ export default function Dashboard() {
           transition={{ duration: 0.8 }}
           className="text-4xl font-extrabold bg-gradient-to-r from-teal-400 to-cyan-500 bg-clip-text text-transparent mb-8"
         >
-          Welcome, {userName}! 👋
+          Welcome, {userName}! 
         </motion.h1>
 
         {/* File Upload */}
