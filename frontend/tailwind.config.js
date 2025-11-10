@@ -5,7 +5,36 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      animation: {
+        'gradient-x': 'gradient-x 8s ease infinite',
+      },
+      keyframes: {
+        'gradient-x': {
+          '0%, 100%': { backgroundPosition: '0% 50%' },
+          '50%': { backgroundPosition: '100% 50%' },
+        },
+      },
+    },
   },
+  extend: {
+  animation: {
+    'gradient-x': 'gradient-x 8s ease infinite',
+  },
+  keyframes: {
+    'gradient-x': {
+      '0%, 100%': { backgroundPosition: '0% 50%' },
+      '50%': { backgroundPosition: '100% 50%' },
+    },
+  },
+},
+theme: {
+  extend: {
+    backdropBlur: {
+      xs: '2px',
+    },
+  },
+},
+
   plugins: [],
 }

@@ -4,134 +4,243 @@ import { motion, useScroll, useTransform } from "framer-motion";
 
 export default function ResearchOverview() {
   const { scrollY } = useScroll();
-  const y1 = useTransform(scrollY, [0, 500], [0, -200]);
+  const heroY = useTransform(scrollY, [0, 400], [0, -150]);
+
+  const fadeIn = (delay = 0) => ({
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { delay, duration: 0.7, ease: "easeOut" },
+    },
+  });
 
   return (
-    <div className="bg-slate-950 text-white overflow-x-hidden">
-        <Navbar />
-      {/* HERO SECTION */}
-      <section className="relative h-screen flex flex-col justify-center items-center text-center px-6">
-        <motion.div style={{ y: y1 }}>
-          <h1 className="text-4xl sm:text-6xl font-extrabold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-500">
+    <div className="bg-[#030711] text-white overflow-x-hidden font-inter selection:bg-teal-500/30 selection:text-white">
+      <Navbar />
+
+      {/* ===== HERO ===== */}
+      <section className="relative h-screen flex flex-col justify-center items-center text-center overflow-hidden">
+        {/* Background */}
+        <motion.div
+          style={{ y: heroY }}
+          className="absolute inset-0 bg-[url('/assets/research-bg.jpg')] bg-cover bg-center brightness-50"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/80 to-[#030711]" />
+
+        {/* Hero Content */}
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={fadeIn(0.2)}
+          className="relative z-10 px-4"
+        >
+          <motion.h1
+            variants={fadeIn(0.2)}
+            className="text-5xl sm:text-7xl font-extrabold bg-gradient-to-r from-teal-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent leading-tight animate-gradient-x"
+          >
             Detection of Credit Card Fraud
-          </h1>
-          <h2 className="text-lg sm:text-2xl text-gray-300 mb-10">
-            Using State-of-the-Art Machine Learning & Deep Learning Algorithms
-          </h2>
-          <a
+          </motion.h1>
+          <motion.p
+            variants={fadeIn(0.4)}
+            className="mt-4 max-w-2xl mx-auto text-gray-300 text-lg sm:text-xl leading-relaxed"
+          >
+            A comparative study of advanced Machine Learning and Deep Learning
+            architectures for real-time fraud detection.
+          </motion.p>
+
+          <motion.a
             href="/"
-            className="bg-teal-500 hover:bg-teal-600 text-white px-6 py-3 rounded-lg text-lg transition-all duration-300"
+            whileHover={{
+              scale: 1.08,
+              boxShadow: "0px 0px 25px rgba(45, 212, 191, 0.6)",
+            }}
+            whileTap={{ scale: 0.95 }}
+            className="mt-10 inline-block bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-cyan-400 hover:to-teal-400 text-white px-8 py-3 rounded-lg text-lg font-semibold shadow-lg transition-all duration-300"
           >
             View System Overview →
-          </a>
+          </motion.a>
         </motion.div>
-        <div className="absolute bottom-10 text-gray-500 text-sm animate-pulse">
-          Scroll to explore ↓
-        </div>
-      </section>
 
-      {/* ABSTRACT SECTION */}
-      <section className="min-h-screen flex flex-col justify-center px-8 sm:px-16 bg-gradient-to-b from-slate-950 to-slate-900">
-        <h2 className="text-3xl sm:text-4xl font-bold text-teal-400 mb-6">
-          Abstract
-        </h2>
-        <p className="text-gray-300 leading-relaxed text-lg max-w-4xl">
-          People can use credit cards for online transactions as it provides an
-          efficient and easy-to-use facility. With the increase in usage of
-          credit cards, the capacity of credit card misuse has also enhanced.
-          Credit card frauds cause significant financial losses for both
-          credit card holders and financial companies.
-        </p>
-        <p className="text-gray-300 leading-relaxed text-lg mt-4 max-w-4xl">
-          The study compares traditional Machine Learning methods such as
-          Decision Tree, Random Forest, Logistic Regression, SVM, and XGBoost
-          with advanced Deep Learning architectures including CNN-based models.
-          A European credit card dataset is used, demonstrating 99.9% accuracy,
-          93% precision, 85.71% F1-score, and 98% AUC, outperforming
-          state-of-the-art benchmarks.
-        </p>
-      </section>
-
-      {/* KEY RESULTS */}
-      <section className="min-h-screen flex flex-col justify-center items-center text-center bg-slate-900">
-        <h2 className="text-3xl sm:text-4xl font-bold text-teal-400 mb-8">
-          Key Outcomes
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl">
-          <div className="bg-slate-800 p-6 rounded-xl shadow-lg">
-            <p className="text-4xl font-bold text-teal-400">99.9%</p>
-            <p className="text-gray-300 mt-2">Accuracy</p>
-          </div>
-          <div className="bg-slate-800 p-6 rounded-xl shadow-lg">
-            <p className="text-4xl font-bold text-cyan-400">93%</p>
-            <p className="text-gray-300 mt-2">Precision</p>
-          </div>
-          <div className="bg-slate-800 p-6 rounded-xl shadow-lg">
-            <p className="text-4xl font-bold text-green-400">85.71%</p>
-            <p className="text-gray-300 mt-2">F1-Score</p>
-          </div>
-          <div className="bg-slate-800 p-6 rounded-xl shadow-lg">
-            <p className="text-4xl font-bold text-yellow-400">98%</p>
-            <p className="text-gray-300 mt-2">AUC Curve</p>
-          </div>
-        </div>
-      </section>
-
-      {/* METHODOLOGY */}
-      <section className="min-h-screen flex flex-col justify-center px-8 sm:px-16 bg-gradient-to-b from-slate-900 to-black">
-        <h2 className="text-3xl sm:text-4xl font-bold text-teal-400 mb-6">
-          Methodology
-        </h2>
-        <p className="text-gray-300 text-lg leading-relaxed max-w-5xl">
-          The system integrates supervised Machine Learning algorithms and
-          advanced Deep Learning CNN architectures to predict fraudulent
-          transactions. Techniques such as Extreme Learning, Random Forest,
-          and SVM were compared against CNNs with multiple hidden layers,
-          achieving near-perfect classification metrics. Data balancing and
-          hyperparameter optimization further minimized false negatives.
-        </p>
-      </section>
-
-      {/* REFERENCES */}
-      <section className="min-h-screen flex flex-col justify-center px-8 sm:px-16 bg-slate-950">
-        <h2 className="text-3xl sm:text-4xl font-bold text-teal-400 mb-6">
-          References
-        </h2>
-        <ul className="space-y-4 text-gray-300 max-w-4xl text-md leading-relaxed list-disc list-inside">
-          <li>
-            <strong>Credit Card Fraud Detection Using State-of-the-Art ML & DL</strong>,
-            DOI: 10.34256/ijcci2511
-          </li>
-          <li>
-            <strong>Machine Learning Methods for Credit Card Fraud Detection</strong>,
-            IEEE Access, DOI: 10.1109/ACCESS.2022.3166891
-          </li>
-          <li>
-            <strong>Enhancing Fraud Detection in Banking With Deep Learning</strong>,
-            DOI: 10.1109/ACCESS.2024.3466288
-          </li>
-          <li>
-            <strong>Advanced ML Approaches for Fraud Detection in the USA</strong>,
-            DOI: 10.62754/joe.v4i2.6377
-          </li>
-          <li>
-            <strong>Credit Card Fraud Detection using AI/ML/CNN</strong>, Volume 8, Issue 3, 2023
-          </li>
-        </ul>
-      </section>
-
-      {/* CTA */}
-      <section className="min-h-screen flex flex-col justify-center items-center bg-black text-center">
-        <h2 className="text-5xl font-bold mb-6 text-white">
-          Ready to Explore the Model?
-        </h2>
-        <a
-          href="/login"
-          className="bg-teal-500 hover:bg-teal-600 text-white px-8 py-4 rounded-lg text-xl transition-all duration-300"
+        {/* Scroll Indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.2 }}
+          className="absolute bottom-8 text-gray-400 text-sm animate-bounce"
         >
-          View Live System →
-        </a>
+          Scroll to Explore ↓
+        </motion.div>
       </section>
+
+      {/* ===== ABSTRACT ===== */}
+      <motion.section
+        className="relative py-20 px-6 sm:px-16 bg-gradient-to-b from-[#030711] to-[#0a1625]"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={fadeIn()}
+      >
+        <div className="max-w-5xl mx-auto">
+          <motion.h2
+            variants={fadeIn(0.2)}
+            className="text-4xl sm:text-5xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-500"
+          >
+            Abstract
+          </motion.h2>
+          <motion.p
+            variants={fadeIn(0.3)}
+            className="text-gray-300 text-lg leading-relaxed"
+          >
+            With the rapid adoption of online payments, credit card fraud has
+            become one of the major concerns for financial institutions. This
+            research investigates multiple learning models to identify and
+            mitigate fraudulent transactions with high accuracy and minimal
+            false positives.
+          </motion.p>
+          <motion.p
+            variants={fadeIn(0.4)}
+            className="text-gray-400 text-lg mt-5 leading-relaxed"
+          >
+            Traditional approaches such as Logistic Regression, Decision Trees,
+            and Random Forest are compared against Deep Learning architectures
+            like CNNs. The study achieved 99.9% accuracy, 93% precision, and 98%
+            AUC using real-world data — demonstrating the potential of AI-driven
+            fraud detection systems.
+          </motion.p>
+        </div>
+      </motion.section>
+
+      {/* ===== RESULTS ===== */}
+      <motion.section
+        className="py-20 bg-[#0a1625] text-center"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={fadeIn()}
+      >
+        <motion.h2
+          variants={fadeIn(0.2)}
+          className="text-4xl sm:text-5xl font-bold mb-10 text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-500"
+        >
+          Research Results
+        </motion.h2>
+
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-5xl mx-auto">
+          {[
+            { label: "Accuracy", value: "99.9%", color: "text-teal-400" },
+            { label: "Precision", value: "93%", color: "text-cyan-400" },
+            { label: "F1-Score", value: "85.7%", color: "text-green-400" },
+            { label: "AUC", value: "98%", color: "text-yellow-400" },
+          ].map((item, index) => (
+            <motion.div
+              key={index}
+              whileHover={{ scale: 1.05 }}
+              className="bg-[#101b2d] p-6 rounded-2xl shadow-lg hover:shadow-teal-500/20 transition-all"
+            >
+              <p className={`text-5xl font-bold ${item.color}`}>{item.value}</p>
+              <p className="text-gray-400 mt-2">{item.label}</p>
+            </motion.div>
+          ))}
+        </div>
+      </motion.section>
+
+      {/* ===== METHODOLOGY ===== */}
+      <motion.section
+        className="relative py-20 px-6 sm:px-16 bg-gradient-to-b from-[#0a1625] to-black"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={fadeIn()}
+      >
+        <div className="max-w-5xl mx-auto">
+          <motion.h2
+            variants={fadeIn(0.2)}
+            className="text-4xl sm:text-5xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500"
+          >
+            Methodology
+          </motion.h2>
+          <motion.p
+            variants={fadeIn(0.3)}
+            className="text-gray-300 text-lg leading-relaxed"
+          >
+            The workflow integrates both supervised Machine Learning and Deep
+            Learning pipelines. Data preprocessing involves feature scaling,
+            noise reduction, and outlier detection. Algorithms including
+            Random Forest, XGBoost, and CNN are tuned with grid search for
+            optimal performance. Evaluation metrics such as accuracy, precision,
+            recall, and AUC are analyzed using stratified k-fold cross-validation.
+          </motion.p>
+        </div>
+      </motion.section>
+
+      {/* ===== REFERENCES ===== */}
+      <motion.section
+        className="py-20 px-6 sm:px-16 bg-[#030711]"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={fadeIn()}
+      >
+        <div className="max-w-5xl mx-auto">
+          <motion.h2
+            variants={fadeIn(0.2)}
+            className="text-4xl sm:text-5xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-500"
+          >
+            References
+          </motion.h2>
+          <motion.p
+            variants={fadeIn(0.3)}
+            className="text-gray-400 text-lg leading-relaxed"
+          >
+            This work references benchmark studies from IEEE Access and Springer
+            exploring ensemble learning and CNN-based anomaly detection in
+            financial data. Comparative insights were drawn from recent
+            publications on hybrid models integrating machine learning with
+            deep neural networks for fraud analytics.
+          </motion.p>
+        </div>
+      </motion.section>
+
+      {/* ===== CTA ===== */}
+      <motion.section
+        className="py-24 text-center bg-gradient-to-b from-black to-[#030711]"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={fadeIn()}
+      >
+        <motion.h2
+          variants={fadeIn(0.2)}
+          className="text-5xl sm:text-6xl font-extrabold mb-4 text-white drop-shadow-xl"
+        >
+          Explore the Live Model
+        </motion.h2>
+        <motion.p
+          variants={fadeIn(0.4)}
+          className="text-gray-400 text-lg mb-8 max-w-xl mx-auto"
+        >
+          Experience the real-time fraud detection system built using ML and
+          Deep Learning — tested, verified, and interactive.
+        </motion.p>
+        <motion.a
+          href="/login"
+          whileHover={{
+            scale: 1.08,
+            boxShadow: "0px 0px 25px rgba(45, 212, 191, 0.6)",
+          }}
+          whileTap={{ scale: 0.96 }}
+          className="bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-cyan-400 hover:to-teal-400 text-white px-10 py-4 rounded-xl text-lg font-semibold shadow-lg transition-all duration-300"
+        >
+          Launch System →
+        </motion.a>
+      </motion.section>
+
+      {/* ===== FOOTER ===== */}
+      <footer className="py-6 text-center text-gray-500 bg-[#02050d] border-t border-slate-800">
+        © {new Date().getFullYear()} Credit Card Fraud Detection Research |
+        Built with ❤️ using React + Framer Motion
+      </footer>
     </div>
   );
 }
