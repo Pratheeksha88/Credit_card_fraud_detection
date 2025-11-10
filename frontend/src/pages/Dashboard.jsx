@@ -255,7 +255,14 @@ export default function Dashboard() {
                   <XAxis dataKey="name" stroke="#9ca3af" />
                   <YAxis stroke="#9ca3af" />
                   <Tooltip />
-                  <Bar dataKey="value" fill="#14b8a6" radius={[8, 8, 0, 0]} />
+                  <Bar dataKey="value" radius={[8, 8, 0, 0]}>
+                  {barData.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={entry.name === "Fraudulent" ? "#ef4444" : "#14b8a6"}
+                  />
+                  ))}
+                  </Bar>
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -276,7 +283,7 @@ export default function Dashboard() {
             <table className="w-full text-sm text-left text-gray-300">
               <thead className="bg-white/10 text-gray-400 uppercase">
                 <tr>
-                  <th className="px-4 py-2">#</th>
+                  <th className="px-4 py-2">Sl.No.</th>
                   <th className="px-4 py-2">Time</th>
                   <th className="px-4 py-2">Amount</th>
                   <th className="px-4 py-2">Prediction</th>
