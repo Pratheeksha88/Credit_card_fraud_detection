@@ -28,6 +28,13 @@ export default {
     },
   },
 },
+theme: {
+  extend: {
+    backdropBlur: {
+      xs: '2px',
+    },
+  },
+},
 
   plugins: [],
 }
