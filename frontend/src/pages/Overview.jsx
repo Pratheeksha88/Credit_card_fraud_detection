@@ -60,7 +60,7 @@ export default function Overview() {
             variants={fadeIn(0.6)}
             className="mt-6 max-w-2xl mx-auto text-gray-300 text-lg sm:text-xl leading-relaxed"
           >
-            A modern AI-powered web system that detects fraudulent transactions in real-time using intelligent analytics.
+            A modern web system that detects fraudulent transactions in real-time using intelligent analytics.
           </motion.p>
 
           {/* Button with glow + spring animation */}
@@ -240,7 +240,7 @@ export default function Overview() {
 
       {/* ===== FOOTER ===== */}
       <footer className="py-6 text-center text-gray-500 bg-[#060E17] border-t border-slate-800">
-        © {new Date().getFullYear()} Credit Card Fraud Detection | Built with ❤️ using React & Flask
+        © {new Date().getFullYear()} Credit Card Fraud Detection | Built with ❤️ by Team 10
       </footer>
     </div>
   );

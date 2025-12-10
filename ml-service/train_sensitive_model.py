@@ -63,3 +63,4 @@ test_fraud = X_res[y_res == 1][:10]
 test_scaled = scaler.transform(test_fraud)
 preds = model.predict_proba(test_scaled)[:, 1]
 print("🧠 Example fraud probabilities:", preds)
+

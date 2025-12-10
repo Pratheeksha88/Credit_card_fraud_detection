@@ -86,7 +86,7 @@ export default function ResearchOverview() {
             variants={fadeIn(0.2)}
             className="text-4xl sm:text-5xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-500"
           >
-            Abstract
+            Overview
           </motion.h2>
           <motion.p
             variants={fadeIn(0.3)}

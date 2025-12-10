@@ -167,7 +167,7 @@ export default function Dashboard() {
           />
 
           <a
-            href="/sample.csv"
+            href="/fraud_test.csv"
             download
             className="inline-block px-4 py-2 bg-teal-500 hover:bg-teal-600 text-white rounded-lg text-sm transition-all"
           >
