@@ -1,4 +1,4 @@
-# 💳 Credit Card Fraud Detection — Full Stack Web Application
+# 💳 Credit Card Fraud Detection using Machine Learning Algorithm— Full Stack Web Application
 
 A complete **Full Stack Machine Learning Web App** that detects fraudulent credit card transactions using a trained model.  
 Built with **React (frontend)**, **Node.js + Express (backend)**, **MongoDB (database)**, and a **Flask ML microservice** powered by **scikit-learn**.
