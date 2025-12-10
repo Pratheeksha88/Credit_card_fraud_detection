@@ -85,10 +85,6 @@ credit-card-fraud-detection/
 │   ├── feature_names.json
 │   ├── requirements.txt
 │   ├── test_api.py
-│   ├── train_balanced_model.py
-│   ├── train_final_model.py
-│   ├── train_model.py
-│   ├── train_real_model.py
 │   ├── train_sensitive_model.py
 │   ├── train.py
 │   ├── .gitignore
